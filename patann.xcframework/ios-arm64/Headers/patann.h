@@ -144,7 +144,7 @@ SYMBOL_EXPORT @interface PatANNObjC : NSObject
 - (void)setQuantizationThreshold:(float)threshold;
 - (void)setPatternProbes:(int)probes;
 - (int)setConstellationSize:(int)size;
-- (int)setRadius:(int)radius forLevel:(int)level;
+- (int)setRadius:(int)radius;
 - (void)setThreads:(int)threads;
 - (void)setQueryThreads:(int)threads maxQueue:(int)maxQueue;
 - (void)setIndexOptimization:(int)val;
@@ -157,7 +157,7 @@ SYMBOL_EXPORT @interface PatANNObjC : NSObject
 - (void)destroyIndexOnDelete:(int)destroy;
 - (uint32_t)isDuplicate:(nonnull NSArray<NSNumber *> *)vector threshold:(float)threshold;
 - (void)setDuplicateThreshold:(int)enable threshold:(float)threshold overwrite:(int)overwrite;
-- (uint32_t)addVector:(nonnull NSArray<NSNumber *> *)vector dimension:(int)dim mask:(uint64_t)mask;
+- (uint32_t)addVector:(nonnull NSArray<NSNumber *> *)vector;
 - (void)deleteVector:(uint32_t)vectorId undelete:(int)undelete;
 - (void)deleteVectors:(nonnull NSArray<NSNumber *> *)ids count:(int)count undelete:(int)undelete;
 - (void)waitForIndexReady;
