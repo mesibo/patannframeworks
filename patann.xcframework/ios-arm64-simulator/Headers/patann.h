@@ -11,9 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(PatANNResults)
 @interface PatANNResultsObjC : NSObject
 
-@property (nonatomic, assign) int32_t count;
-@property (nonatomic, assign) int32_t alloced;
-@property (nonatomic, assign) int32_t mergeIndex;
+@property (nonatomic, assign) NSInteger count;
+@property (nonatomic, assign) NSInteger alloced;
+@property (nonatomic, assign) NSInteger mergeIndex;
 @property (nonatomic, strong, nullable) NSArray<NSNumber *> *ids;  
 @property (nonatomic, strong, nullable) NSArray<NSNumber *> *distances;
 
@@ -22,9 +22,9 @@ NS_SWIFT_NAME(PatANNResults)
 NS_SWIFT_NAME(PatANNResultIds)
 @interface PatANNResultIdsObjC : NSObject
 
-@property (nonatomic, assign) int32_t count;
-@property (nonatomic, assign) int32_t outputs;
-@property (nonatomic, assign) int32_t alloced;
+@property (nonatomic, assign) NSInteger count;
+@property (nonatomic, assign) NSInteger outputs;
+@property (nonatomic, assign) NSInteger alloced;
 @property (nonatomic, strong, nullable) NSArray<NSNumber *> *ids;
 
 @end
@@ -32,8 +32,8 @@ NS_SWIFT_NAME(PatANNResultIds)
 NS_SWIFT_NAME(PatANNResultDistances)
 @interface PatANNResultDistsObjC : NSObject
 
-@property (nonatomic, assign) int32_t count;
-@property (nonatomic, assign) int32_t alloced;
+@property (nonatomic, assign) NSInteger count;
+@property (nonatomic, assign) NSInteger alloced;
 @property (nonatomic, strong, nullable) NSArray<NSNumber *> *distances;
 
 @end
@@ -41,8 +41,8 @@ NS_SWIFT_NAME(PatANNResultDistances)
 NS_SWIFT_NAME(PatANNFloatData)
 @interface PatANNFloatDataObjC : NSObject
 
-@property (nonatomic, assign) int32_t count;
-@property (nonatomic, assign) int32_t alloced;
+@property (nonatomic, assign) NSInteger count;
+@property (nonatomic, assign) NSInteger alloced;
 @property (nonatomic, strong, nullable) NSArray<NSNumber *> *data;
 
 @end
@@ -50,8 +50,8 @@ NS_SWIFT_NAME(PatANNFloatData)
 NS_SWIFT_NAME(PatANNShardConfig)
 @interface PatANNShardConfigObjC : NSObject
 
-@property (nonatomic, assign) uint32_t total;
-@property (nonatomic, assign) uint32_t shardId;
+@property (nonatomic, assign) NSInteger total;
+@property (nonatomic, assign) NSInteger shardId;
 @property (nonatomic, strong, nullable) NSString *path;
 
 @end
@@ -59,8 +59,8 @@ NS_SWIFT_NAME(PatANNShardConfig)
 NS_SWIFT_NAME(PatANNIDs)
 @interface PatANNIDsObjC : NSObject
 
-@property (nonatomic, assign) uint32_t start;
-@property (nonatomic, assign) uint32_t end;
+@property (nonatomic, assign) NSInteger start;
+@property (nonatomic, assign) NSInteger end;
 
 @end
 
@@ -79,30 +79,41 @@ typedef NS_ENUM(NSInteger, PatANNDistanceType) {
 } NS_SWIFT_NAME(PatANN.DistanceType);
 
 @class PatANNQueryObjC;
+@class PatANNObjC;
 
-// Protocol for query listener
+// Protocol for index listener (matching PatANNIndexListener.java)
+NS_SWIFT_NAME(PatANNIndexListener)
+@protocol PatANNIndexListenerObjC <NSObject>
+
+@required
+- (void)PatANNOnIndexUpdate:(PatANNObjC *)ann indexed:(NSInteger)indexed total:(NSInteger)total
+NS_SWIFT_NAME(PatANNOnIndexUpdate(ann:indexed:total:));
+
+@end
+
+// Protocol for query listener (matching PatANNQueryListener.java)
 NS_SWIFT_NAME(PatANNQueryListener)
 @protocol PatANNQueryListenerObjC <NSObject>
 
 @required
-- (int)patANNOnFilter:(PatANNQueryObjC *)query id:(uint32_t)vectorId;
-- (int)patANNOnResult:(PatANNQueryObjC *)query;
-
+- (void)PatANNOnResult:(PatANNQueryObjC *)query NS_SWIFT_NAME(PatANNOnResult(query:));
 @end
 
-// Wrapper for PatANNQuery
+// Wrapper for PatANNQuery (matching PatANNQuery.java)
 NS_SWIFT_NAME(PatANNQuery)
 @interface PatANNQueryObjC : NSObject
 
 - (void)destroy;
-- (void)setListener:(nullable id<PatANNQueryListenerObjC>)listener enableFilter:(int)enableFilter;
-- (void)setUserData:(nullable void *)data;
-- (nullable void *)getUserData;
-- (int)setRadius:(int)radius;
-- (int)query:(nonnull NSArray<NSNumber *> *)vector k:(int)k;
-- (int)more;
-- (int)refine;
-- (int)filter:(uint32_t)vectorId;
+- (void)setListener:(nullable id<PatANNQueryListenerObjC>)listener;
+- (nullable id<PatANNQueryListenerObjC>)getListener;
+- (nonnull PatANNObjC *)getParent;
+- (void)setUserData:(nullable id)userData;
+- (nullable id)getUserData;
+- (NSInteger)setRadius:(NSInteger)radius;
+- (BOOL)query:(nonnull NSArray<NSNumber *> *)vector k:(NSInteger)k;
+- (BOOL)more;
+- (BOOL)refine;
+- (BOOL)filter:(NSInteger)vectorId;
 - (nonnull NSArray<NSNumber *> *)getResults;
 - (nonnull NSArray<NSNumber *> *)getResultDists;
 
@@ -114,58 +125,61 @@ NS_SWIFT_NAME(PatANNUtils)
 
 + (nonnull PatANNUtilsObjC *)instance;
 
-- (void)printMemoryUsage:(nullable NSString *)name level:(int)level;
-- (int)deleteFilesInDirectory:(nullable NSString *)directory ageInSeconds:(int)ageInSeconds extension:(nullable NSString *)extension reverse:(int)reverse;
-- (uint32_t)getRandom32;
-- (uint32_t)getRandom32Max:(uint32_t)max;
-- (uint64_t)getRandom64;
+- (void)printMemoryUsage:(nullable NSString *)name level:(NSInteger)level;
+- (NSInteger)deleteFilesInDirectory:(nullable NSString *)directory ageInSeconds:(NSInteger)ageInSeconds extension:(nullable NSString *)extension reverse:(NSInteger)reverse;
+- (NSInteger)getRandom32;
+- (NSInteger)getRandom32Max:(NSInteger)max;
+- (NSInteger)getRandom64;
 - (double)getRandom;
 
 @end
 
-// Main PatANN interface wrapper
+// Main PatANN interface wrapper (matching PatANN.java)
 NS_SWIFT_NAME(PatANN)
 SYMBOL_EXPORT @interface PatANNObjC : NSObject
 
 // Factory methods
-+ (nonnull PatANNObjC *)createInstance:(int)dim;
-+ (nonnull PatANNObjC *)createOnDiskInstance:(int)dim path:(nullable NSString *)path name:(nullable NSString *)name;
-+ (int)interfaceVersion;
++ (nonnull PatANNObjC *)createInstance:(NSInteger)dimension;
++ (nonnull PatANNObjC *)createOnDiskInstance:(NSInteger)dimension path:(nullable NSString *)path name:(nullable NSString *)name;
 
+// Instance methods
 - (void)destroy;
-- (void)thisIsPreproductionSoftware:(int)agree;
-- (void)validateParameters:(int)validate;
-- (void)syncToDisk:(uint32_t)interval;
-- (void)setAllocationUnits:(uint32_t)units;
-- (void)enableDiskCache:(uint64_t) size;
-- (void)testDiskPerformance:(nullable NSString *)path blockSize:(uint32_t)blockSize fileSize:(uint32_t)fileSize duration:(int)duration forced:(int)forced;
-- (void)enableHugePages:(int)enable;
-- (void)setQuantization:(int)algo;
+- (void)this_is_preproduction_software:(BOOL)agree;
+- (void)validateParameters:(BOOL)validate;
+- (void)setIndexListener:(nullable id<PatANNIndexListenerObjC>)listener count:(NSInteger)count;
+- (void)setIndexListener:(nullable id<PatANNIndexListenerObjC>)listener;
+- (nullable id<PatANNIndexListenerObjC>)getIndexListener;
+- (void)syncToDisk:(NSInteger)interval;
+- (void)setAllocationUnits:(NSInteger)units;
+- (void)enableDiskCache:(NSInteger)size;
+- (void)testDiskPerformance:(nullable NSString *)path blockSize:(NSInteger)blockSize fileSize:(NSInteger)fileSize duration:(NSInteger)duration forced:(BOOL)forced;
+- (void)enableHugePages:(BOOL)enable;
+- (void)setQuantization:(NSInteger)algo;
 - (void)setQuantizationThreshold:(float)threshold;
-- (void)setPatternProbes:(int)probes;
-- (int)setConstellationSize:(int)size;
-- (int)setRadius:(int)radius;
-- (void)setThreads:(int)threads;
-- (void)setQueryThreads:(int)threads maxQueue:(int)maxQueue;
-- (void)setIndexOptimization:(int)val;
-- (void)setSearchOptimization:(int)val;
+- (void)setPatternProbes:(NSInteger)probes;
+- (NSInteger)setConstellationSize:(NSInteger)size;
+- (NSInteger)setRadius:(NSInteger)radius;
+- (void)setThreads:(NSInteger)threads;
+- (void)setQueryThreads:(NSInteger)threads maxQueue:(NSInteger)maxQueue;
+- (void)setIndexOptimization:(NSInteger)val;
+- (void)setSearchOptimization:(NSInteger)val;
 - (void)setDistanceType:(PatANNDistanceType)distanceType;
 - (void)setMipsMode;
-- (void)setNormalize:(int)enable;
-- (void)enableDuplicateDetection:(int)level;
-- (uint32_t)isIndexed:(nonnull NSArray<NSNumber *> *)vector;
-- (void)destroyIndexOnDelete:(int)destroy;
-- (uint32_t)isDuplicate:(nonnull NSArray<NSNumber *> *)vector threshold:(float)threshold;
-- (void)setDuplicateThreshold:(int)enable threshold:(float)threshold overwrite:(int)overwrite;
-- (uint32_t)addVector:(nonnull NSArray<NSNumber *> *)vector;
-- (void)deleteVector:(uint32_t)vectorId undelete:(int)undelete;
-- (void)deleteVectors:(nonnull NSArray<NSNumber *> *)ids count:(int)count undelete:(int)undelete;
+- (void)setNormalize:(BOOL)enable;
+- (void)enableDuplicateDetection:(NSInteger)level;
+- (NSInteger)isIndexed:(nonnull NSArray<NSNumber *> *)vector;
+- (void)destroyIndexOnDelete:(BOOL)destroy;
+- (NSInteger)isDuplicate:(nonnull NSArray<NSNumber *> *)vector threshold:(float)threshold;
+- (void)setDuplicateThreshold:(BOOL)enable threshold:(float)threshold overwrite:(BOOL)overwrite;
+- (NSInteger)addVector:(nonnull NSArray<NSNumber *> *)vector;
+- (void)deleteVector:(NSInteger)vectorId undelete:(BOOL)undelete;
+- (void)deleteVectors:(nonnull NSArray<NSNumber *> *)ids count:(NSInteger)count undelete:(BOOL)undelete;
 - (void)waitForIndexReady;
 - (BOOL)isIndexReady;
-- (nonnull PatANNQueryObjC *)createQuerySession:(int)radius count:(int)count;
+- (nonnull PatANNQueryObjC *)createQuerySession:(NSInteger)radius count:(NSInteger)count;
 - (float)distance:(nonnull NSArray<NSNumber *> *)v1 vector2:(nonnull NSArray<NSNumber *> *)v2;
-- (float)distanceId:(uint32_t)id vector:(nonnull NSArray<NSNumber *> *)v;
-- (void)normalizeVector:(nonnull NSMutableArray<NSNumber *> *)vector dimension:(int)dim;
+- (float)distanceId:(NSInteger)id vector:(nonnull NSArray<NSNumber *> *)v;
+- (void)normalizeVector:(NSMutableArray<NSNumber *> *)vector dimension:(NSInteger)dimension;
 
 @end
 
