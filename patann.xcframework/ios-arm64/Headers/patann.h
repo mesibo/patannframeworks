@@ -103,19 +103,19 @@ NS_SWIFT_NAME(PatANNQueryListener)
 NS_SWIFT_NAME(PatANNQuery)
 @interface PatANNQueryObjC : NSObject
 
-- (void)destroy;
-- (void)setListener:(nullable id<PatANNQueryListenerObjC>)listener;
-- (nullable id<PatANNQueryListenerObjC>)getListener;
-- (nonnull PatANNObjC *)getParent;
-- (void)setUserData:(nullable id)userData;
-- (nullable id)getUserData;
-- (NSInteger)setRadius:(NSInteger)radius;
-- (BOOL)query:(nonnull NSArray<NSNumber *> *)vector k:(NSInteger)k;
-- (BOOL)more;
-- (BOOL)refine;
-- (BOOL)filter:(NSInteger)vectorId;
-- (nonnull NSArray<NSNumber *> *)getResults;
-- (nonnull NSArray<NSNumber *> *)getResultDists;
+- (void)destroy NS_SWIFT_NAME(destroy());
+- (void)setListener:(nullable id<PatANNQueryListenerObjC>)listener NS_SWIFT_NAME(setListener(_:));
+- (nullable id<PatANNQueryListenerObjC>)getListener NS_SWIFT_NAME(getListener());
+- (nonnull PatANNObjC *)getParent NS_SWIFT_NAME(getParent());
+- (void)setUserData:(nullable id)userData NS_SWIFT_NAME(setUserData(_:));
+- (nullable id)getUserData NS_SWIFT_NAME(getUserData());
+- (NSInteger)setRadius:(NSInteger)radius NS_SWIFT_NAME(setRadius(_:));
+- (BOOL)query:(nonnull NSArray<NSNumber *> *)vector k:(NSInteger)k NS_SWIFT_NAME(query(_:k:));
+- (BOOL)more NS_SWIFT_NAME(more());
+- (BOOL)refine NS_SWIFT_NAME(refine());
+- (BOOL)filter:(NSInteger)vectorId NS_SWIFT_NAME(filter(_:));
+- (nonnull NSArray<NSNumber *> *)getResults NS_SWIFT_NAME(getResults());
+- (nonnull NSArray<NSNumber *> *)getResultDists NS_SWIFT_NAME(getResultDists());
 
 @end
 
@@ -123,14 +123,14 @@ NS_SWIFT_NAME(PatANNQuery)
 NS_SWIFT_NAME(PatANNUtils)
 @interface PatANNUtilsObjC : NSObject
 
-+ (nonnull PatANNUtilsObjC *)instance;
++ (nonnull PatANNUtilsObjC *)instance NS_SWIFT_NAME(instance());
 
-- (void)printMemoryUsage:(nullable NSString *)name level:(NSInteger)level;
-- (NSInteger)deleteFilesInDirectory:(nullable NSString *)directory ageInSeconds:(NSInteger)ageInSeconds extension:(nullable NSString *)extension reverse:(NSInteger)reverse;
-- (NSInteger)getRandom32;
-- (NSInteger)getRandom32Max:(NSInteger)max;
-- (NSInteger)getRandom64;
-- (double)getRandom;
+- (void)printMemoryUsage:(nullable NSString *)name level:(NSInteger)level NS_SWIFT_NAME(printMemoryUsage(_:level:));
+- (NSInteger)deleteFilesInDirectory:(nullable NSString *)directory ageInSeconds:(NSInteger)ageInSeconds extension:(nullable NSString *)extension reverse:(NSInteger)reverse NS_SWIFT_NAME(deleteFilesInDirectory(_:ageInSeconds:extension:reverse:));
+- (NSInteger)getRandom32 NS_SWIFT_NAME(getRandom32());
+- (NSInteger)getRandom32Max:(NSInteger)max NS_SWIFT_NAME(getRandom32Max(_:));
+- (NSInteger)getRandom64 NS_SWIFT_NAME(getRandom64());
+- (double)getRandom NS_SWIFT_NAME(getRandom());
 
 @end
 
@@ -139,47 +139,47 @@ NS_SWIFT_NAME(PatANN)
 SYMBOL_EXPORT @interface PatANNObjC : NSObject
 
 // Factory methods
-+ (nonnull PatANNObjC *)createInstance:(NSInteger)dimension;
-+ (nonnull PatANNObjC *)createOnDiskInstance:(NSInteger)dimension path:(nullable NSString *)path name:(nullable NSString *)name;
++ (nonnull PatANNObjC *)createInstance:(NSInteger)dimension NS_SWIFT_NAME(createInstance(_:));
++ (nonnull PatANNObjC *)createOnDiskInstance:(NSInteger)dimension path:(nullable NSString *)path name:(nullable NSString *)name NS_SWIFT_NAME(createOnDiskInstance(_:path:name:));
 
 // Instance methods
-- (void)destroy;
-- (void)this_is_preproduction_software:(BOOL)agree;
-- (void)validateParameters:(BOOL)validate;
-- (void)setIndexListener:(nullable id<PatANNIndexListenerObjC>)listener count:(NSInteger)count;
-- (void)setIndexListener:(nullable id<PatANNIndexListenerObjC>)listener;
-- (nullable id<PatANNIndexListenerObjC>)getIndexListener;
-- (void)syncToDisk:(NSInteger)interval;
-- (void)setAllocationUnits:(NSInteger)units;
-- (void)enableDiskCache:(NSInteger)size;
-- (void)testDiskPerformance:(nullable NSString *)path blockSize:(NSInteger)blockSize fileSize:(NSInteger)fileSize duration:(NSInteger)duration forced:(BOOL)forced;
-- (void)enableHugePages:(BOOL)enable;
-- (void)setQuantization:(NSInteger)algo;
-- (void)setQuantizationThreshold:(float)threshold;
-- (void)setPatternProbes:(NSInteger)probes;
-- (NSInteger)setConstellationSize:(NSInteger)size;
-- (NSInteger)setRadius:(NSInteger)radius;
-- (void)setThreads:(NSInteger)threads;
-- (void)setQueryThreads:(NSInteger)threads maxQueue:(NSInteger)maxQueue;
-- (void)setIndexOptimization:(NSInteger)val;
-- (void)setSearchOptimization:(NSInteger)val;
-- (void)setDistanceType:(PatANNDistanceType)distanceType;
-- (void)setMipsMode;
-- (void)setNormalize:(BOOL)enable;
-- (void)enableDuplicateDetection:(NSInteger)level;
-- (NSInteger)isIndexed:(nonnull NSArray<NSNumber *> *)vector;
-- (void)destroyIndexOnDelete:(BOOL)destroy;
-- (NSInteger)isDuplicate:(nonnull NSArray<NSNumber *> *)vector threshold:(float)threshold;
-- (void)setDuplicateThreshold:(BOOL)enable threshold:(float)threshold overwrite:(BOOL)overwrite;
-- (NSInteger)addVector:(nonnull NSArray<NSNumber *> *)vector;
-- (void)deleteVector:(NSInteger)vectorId undelete:(BOOL)undelete;
-- (void)deleteVectors:(nonnull NSArray<NSNumber *> *)ids count:(NSInteger)count undelete:(BOOL)undelete;
-- (void)waitForIndexReady;
-- (BOOL)isIndexReady;
-- (nonnull PatANNQueryObjC *)createQuerySession:(NSInteger)radius count:(NSInteger)count;
-- (float)distance:(nonnull NSArray<NSNumber *> *)v1 vector2:(nonnull NSArray<NSNumber *> *)v2;
-- (float)distanceId:(NSInteger)id vector:(nonnull NSArray<NSNumber *> *)v;
-- (void)normalizeVector:(NSMutableArray<NSNumber *> *)vector dimension:(NSInteger)dimension;
+- (void)destroy NS_SWIFT_NAME(destroy());
+- (void)this_is_preproduction_software:(BOOL)agree NS_SWIFT_NAME(this_is_preproduction_software(_:));
+- (void)validateParameters:(BOOL)validate NS_SWIFT_NAME(validateParameters(_:));
+- (void)setIndexListener:(nullable id<PatANNIndexListenerObjC>)listener count:(NSInteger)count NS_SWIFT_NAME(setIndexListener(_:count:));
+- (void)setIndexListener:(nullable id<PatANNIndexListenerObjC>)listener NS_SWIFT_NAME(setIndexListener(_:));
+- (nullable id<PatANNIndexListenerObjC>)getIndexListener NS_SWIFT_NAME(getIndexListener());
+- (void)syncToDisk:(NSInteger)interval NS_SWIFT_NAME(syncToDisk(_:));
+- (void)setAllocationUnits:(NSInteger)units NS_SWIFT_NAME(setAllocationUnits(_:));
+- (void)enableDiskCache:(NSInteger)size NS_SWIFT_NAME(enableDiskCache(_:));
+- (void)testDiskPerformance:(nullable NSString *)path blockSize:(NSInteger)blockSize fileSize:(NSInteger)fileSize duration:(NSInteger)duration forced:(BOOL)forced NS_SWIFT_NAME(testDiskPerformance(_:blockSize:fileSize:duration:forced:));
+- (void)enableHugePages:(BOOL)enable NS_SWIFT_NAME(enableHugePages(_:));
+- (void)setQuantization:(NSInteger)algo NS_SWIFT_NAME(setQuantization(_:));
+- (void)setQuantizationThreshold:(float)threshold NS_SWIFT_NAME(setQuantizationThreshold(_:));
+- (void)setPatternProbes:(NSInteger)probes NS_SWIFT_NAME(setPatternProbes(_:));
+- (NSInteger)setConstellationSize:(NSInteger)size NS_SWIFT_NAME(setConstellationSize(_:));
+- (NSInteger)setRadius:(NSInteger)radius NS_SWIFT_NAME(setRadius(_:));
+- (void)setThreads:(NSInteger)threads NS_SWIFT_NAME(setThreads(_:));
+- (void)setQueryThreads:(NSInteger)threads maxQueue:(NSInteger)maxQueue NS_SWIFT_NAME(setQueryThreads(_:maxQueue:));
+- (void)setIndexOptimization:(NSInteger)val NS_SWIFT_NAME(setIndexOptimization(_:));
+- (void)setSearchOptimization:(NSInteger)val NS_SWIFT_NAME(setSearchOptimization(_:));
+- (void)setDistanceType:(PatANNDistanceType)distanceType NS_SWIFT_NAME(setDistanceType(_:));
+- (void)setMipsMode NS_SWIFT_NAME(setMipsMode());
+- (void)setNormalize:(BOOL)enable NS_SWIFT_NAME(setNormalize(_:));
+- (void)enableDuplicateDetection:(NSInteger)level NS_SWIFT_NAME(enableDuplicateDetection(_:));
+- (NSInteger)isIndexed:(nonnull NSArray<NSNumber *> *)vector NS_SWIFT_NAME(isIndexed(_:));
+- (void)destroyIndexOnDelete:(BOOL)destroy NS_SWIFT_NAME(destroyIndexOnDelete(_:));
+- (NSInteger)isDuplicate:(nonnull NSArray<NSNumber *> *)vector threshold:(float)threshold NS_SWIFT_NAME(isDuplicate(_:threshold:));
+- (void)setDuplicateThreshold:(BOOL)enable threshold:(float)threshold overwrite:(BOOL)overwrite NS_SWIFT_NAME(setDuplicateThreshold(_:threshold:overwrite:));
+- (NSInteger)addVector:(nonnull NSArray<NSNumber *> *)vector NS_SWIFT_NAME(addVector(_:));
+- (void)deleteVector:(NSInteger)vectorId undelete:(BOOL)undelete NS_SWIFT_NAME(deleteVector(_:undelete:));
+- (void)deleteVectors:(nonnull NSArray<NSNumber *> *)ids count:(NSInteger)count undelete:(BOOL)undelete NS_SWIFT_NAME(deleteVectors(_:count:undelete:));
+- (void)waitForIndexReady NS_SWIFT_NAME(waitForIndexReady());
+- (BOOL)isIndexReady NS_SWIFT_NAME(isIndexReady());
+- (nonnull PatANNQueryObjC *)createQuerySession:(NSInteger)radius count:(NSInteger)count NS_SWIFT_NAME(createQuerySession(_:count:));
+- (float)distance:(nonnull NSArray<NSNumber *> *)v1 vector2:(nonnull NSArray<NSNumber *> *)v2 NS_SWIFT_NAME(distance(_:vector2:));
+- (float)distanceId:(NSInteger)id vector:(nonnull NSArray<NSNumber *> *)v NS_SWIFT_NAME(distanceId(_:vector:));
+- (void)normalizeVector:(NSMutableArray<NSNumber *> *)vector dimension:(NSInteger)dimension NS_SWIFT_NAME(normalizeVector(_:dimension:));
 
 @end
 
