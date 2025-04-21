@@ -1,6 +1,0 @@
-framework module patann {
-  umbrella header "patann.xcframework/ios-arm64/Headers/patann.h"
-  
-  export *
-  module * { export * }
-}
