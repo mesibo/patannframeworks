@@ -1,5 +1,5 @@
 framework module patann {
-  umbrella header "Headers/patann.h"
+  umbrella header "patann.h"
   
   export *
   module * { export * }
