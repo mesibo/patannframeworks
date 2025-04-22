@@ -1,0 +1,5 @@
+framework module patann {
+    umbrella header "patann.h"
+    export *
+    module * { export * }
+}
