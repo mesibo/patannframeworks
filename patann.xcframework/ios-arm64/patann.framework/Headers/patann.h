@@ -176,6 +176,7 @@ SYMBOL_EXPORT @interface PatANNObjC : NSObject
 - (void)deleteVectors:(nonnull NSArray<NSNumber *> *)ids count:(NSInteger)count undelete:(BOOL)undelete NS_SWIFT_NAME(deleteVectors(_:count:undelete:));
 - (void)waitForIndexReady NS_SWIFT_NAME(waitForIndexReady());
 - (BOOL)isIndexReady NS_SWIFT_NAME(isIndexReady());
+- (NSInteger)getIndexSize:(BOOL)total NS_SWIFT_NAME(getIndexSize(_:));
 - (nonnull PatANNQueryObjC *)createQuerySession:(NSInteger)radius count:(NSInteger)count NS_SWIFT_NAME(createQuerySession(_:count:));
 - (float)distance:(nonnull NSArray<NSNumber *> *)v1 vector2:(nonnull NSArray<NSNumber *> *)v2 NS_SWIFT_NAME(distance(_:vector2:));
 - (float)distanceId:(NSInteger)id vector:(nonnull NSArray<NSNumber *> *)v NS_SWIFT_NAME(distanceId(_:vector:));
